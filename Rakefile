@@ -6,11 +6,11 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "mongoid_cached_document"
     gem.summary = %Q{Document caching for Mongoid}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{Adds support for caching Mongoid documents as a field within other Mongoid documents, with complete control over which fields to cache.}
     gem.email = "mhgibbons@me.com"
     gem.homepage = "http://github.com/accuser/mongoid_cached_document"
-    gem.authors = ["Matthew Gibbons"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.authors = [ "Matthew Gibbons" ]
+    gem.add_dependency "mongoid", ">= 2.0.0.beta2"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
