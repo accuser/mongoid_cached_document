@@ -25,12 +25,12 @@ Assuming <tt>@user</tt> is a valid <tt>User</tt> with an <tt>id</tt> of 42 and <
 
 This will create a new <tt>Post</tt> document, with an <tt>author</tt> field, the content of which is a hash:
 
-    { '_type' => 'User', '_id' = 1 }
+    { '_type' => 'User', '_id' = 42 }
     
     @post.author._type
     => 'User'
     @post.author._id
-    => 1
+    => 42
     
 Attempting to get the user's <tt>login</tt> will cause the real user document to be fetched from the collection, which replaces the cached values.
 
@@ -44,7 +44,7 @@ Attempting to get the user's <tt>login</tt> will cause the real user document to
   
 With the above class definition, the cached attributes will be:
 
-    { '_type' => 'User', '_id' = 1, 'login' => 'jsmith' }
+    { '_type' => 'User', '_id' = 42, 'login' => 'jsmith' }
 
 To use the above in a criteria:
 
