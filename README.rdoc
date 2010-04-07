@@ -1,6 +1,56 @@
-= mongoid_cached_document
+= About Mongoid::CachedDocument
 
-Description goes here.
+Mongoid is an ODM (Object-Document-Mapper) framework for MongoDB in Ruby. Mongoid::CachedDocument adds a new field type of the same name that supports the caching attributes from a related document.
+
+== Example
+
+    class User
+      include Mongoid::Document
+      
+      field :login
+      #...
+    end
+    
+    class Post
+      include Mongoid::Document
+      
+      field :title
+      field :body
+      field :author, :type => Mongoid::CachedDocument
+    end
+    
+Assuming <tt>@user</tt> is a valid <tt>User</tt> with an <tt>id</tt> of 42 and <tt>login</tt> of '<tt>jsmith</tt>':
+
+    @post = Post.create(:title => 'First Post', :body => 'This is a post.', :author => @user)
+
+This will create a new <tt>Post</tt> document, with an <tt>author</tt> field, the content of which is a hash:
+
+    { '_type' => 'User', '_id' = 1 }
+    
+    @post.author._type
+    => 'User'
+    @post.author._id
+    => 1
+    
+Attempting to get the user's <tt>login</tt> will cause the real user document to be fetched from the collection, which replaces the cached values.
+
+  class User
+    #...
+    
+    def cached_attributes
+      [ :login ]
+    end
+  end
+  
+With the above class definition, the cached attributes will be:
+
+    { '_type' => 'User', '_id' = 1, 'login' => 'jsmith' }
+
+To use the above in a criteria:
+
+    Post.criteria.where('author.login' => 'jsmith')
+
+Enjoy!
 
 == Note on Patches/Pull Requests
  
