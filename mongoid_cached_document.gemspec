@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/mongoid/cached_document.rb",
+     "mongoid_cached_document.gemspec",
      "spec/spec.opts",
      "spec/spec_helper.rb",
      "spec/unit/mongoid/cached_document_spec.rb"
