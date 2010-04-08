@@ -35,7 +35,9 @@ module Mongoid
 
     class << self
       def set(value)
-        if value.respond_to? :cachable_attributes
+        if value.nil?
+          nil
+        elsif value.respond_to? :cachable_attributes
           value.cachable_attributes.merge({ '_type' => value.class.to_s, '_id' => value.id })
         else
           { '_type' => value.class.to_s, '_id' => value.id }
@@ -57,20 +59,23 @@ module Mongoid
     def method_missing(name, *args, &block)
       if @document
         _document.send name, *args, &block
-      elsif @cached_attributes.has_key? name.to_s
+      elsif @cached_attributes && @cached_attributes.has_key? name.to_s
         @cached_attributes[name.to_s]
-      else
+      elsif _document
         if defined? Rails
           Rails.logger.debug("#{@cached_attributes['_type']}[:#{name}] is not cached (called from #{caller(1).first})")
         end
         
         _document.send name, *args, &block
+      else
+        super
       end
     end
 
     private
       def _document
-        @document ||= @cached_attributes['_type'].constantize.find(@cached_attributes['_id'])
+        @document ||= @cached_attributes && @cached_attributes['_type'].constantize.find(@cached_attributes['_id'])
+        end
       end
   end
 end

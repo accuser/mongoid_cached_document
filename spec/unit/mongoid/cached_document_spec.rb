@@ -54,4 +54,30 @@ describe Mongoid::CachedDocument do
       @cached_document.title == 'Title'
     end
   end
+  
+  describe "tesing for equality" do
+    before :each do
+      @cachable_document = mock(CachableDocument)
+      
+      @cachable_document.stub(:id).and_return 42
+      @cachable_document.stub(:class).and_return CachableDocument
+      
+      @cached_document = Mongoid::CachedDocument.get('_type' => 'CachableDocument', '_id' => 42)
+    end
+        
+    it "#== delegates to the document" do
+      CachableDocument.should_receive(:find).with(42).and_return(@cachable_document)    
+      @cached_document == @cachable_document
+    end
+
+    it "#eql? delegates to the document" do
+      CachableDocument.should_receive(:find).with(42).and_return(@cachable_document)    
+      @cached_document.eql? @cachable_document
+    end
+
+    it "#equal? delegates to the document" do
+      CachableDocument.should_receive(:find).with(42).and_return(@cachable_document)    
+      @cached_document.equal? @cachable_document
+    end
+  end
 end
