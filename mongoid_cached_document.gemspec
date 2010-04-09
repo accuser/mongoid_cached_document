@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mongoid_cached_document}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew Gibbons"]
-  s.date = %q{2010-04-08}
+  s.date = %q{2010-04-09}
   s.description = %q{Adds support for caching Mongoid documents as a field within other Mongoid documents, with complete control over which fields to cache.}
   s.email = %q{mhgibbons@me.com}
   s.extra_rdoc_files = [
