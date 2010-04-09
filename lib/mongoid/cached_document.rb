@@ -59,7 +59,7 @@ module Mongoid
     def method_missing(name, *args, &block)
       if @document
         _document.send name, *args, &block
-      elsif @cached_attributes && @cached_attributes.has_key? name.to_s
+      elsif @cached_attributes && @cached_attributes.has_key?(name.to_s)
         @cached_attributes[name.to_s]
       elsif _document
         if defined? Rails
@@ -75,7 +75,6 @@ module Mongoid
     private
       def _document
         @document ||= @cached_attributes && @cached_attributes['_type'].constantize.find(@cached_attributes['_id'])
-        end
       end
   end
 end
